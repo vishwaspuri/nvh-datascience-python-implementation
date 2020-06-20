@@ -64,7 +64,7 @@ def driver(x_1, y_1, z_1, x_2, y_2, z_2, x_3, y_3, z_3, k_x_1, k_y_1, k_z_1, k_x
 
     # print(max(objective_function_values))
 
-    return pow(max(objective_function_values),2)
+    return max(objective_function_values)
 
 # o = driver(-0.25,0.25,-0.25,0.30,-0.10,0.05,-0.35,-0.35,-0.35,0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5))
 # print(o)
