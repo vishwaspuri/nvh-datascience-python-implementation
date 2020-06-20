@@ -51,5 +51,5 @@ def calculate_objective_function(com_displacement, num_mounts, mounts):
             force_complex = force[i,:]
             force_real_part = np.complex(force_complex).real
             objective_function_value_square = objective_function_value_square + pow(force_real_part, 2)
-    print(objective_function_value_square)
+    # print(objective_function_value_square)
     return pow(objective_function_value_square, 0.5)
