@@ -4,7 +4,7 @@ from models import ForcePhasor, Engine, Mount
 import utils
 import pprint
 
-principal_moments = np.array([4,10,8])
+principal_moments = [4,10,8]
 engine = Engine(mass=170, principal_moments=principal_moments)
 
 mount_1 = Mount(x=-0.25, y=0.25, z=-0.25, k_x=0.6*pow(10,5),k_y=0.6*pow(10,5), k_z=0.6*pow(10,5), n_x=0.1, n_y=0.1, n_z=0.1)
@@ -19,19 +19,19 @@ phasor_angle_1[2]=-3
 phasor_angle_1[3]=1.8
 phasor_angle_1[4]=3.0
 force_phasor_1 = ForcePhasor(angular_frequency=194, phasor_angle=phasor_angle_1, f_z=220, m_x=85, m_y=3.0)
-force_matrix_1 = force_phasor_1.force_phasor_matrix()
+force_matrix_1 = force_phasor_1.force_phasor_matrix(time=0)
 
 phasor_angle_2 = np.zeros([6,1])
 phasor_angle_2[2]=0.35
 phasor_angle_2[3]=1.6
 phasor_angle_2[4]=3.0
 force_phasor_2 = ForcePhasor(angular_frequency=388, phasor_angle=phasor_angle_1, f_z=33, m_x=44, m_y=2.9)
-force_matrix_2 = force_phasor_2.force_phasor_matrix()
+force_matrix_2 = force_phasor_2.force_phasor_matrix(time=0)
 
 phasor_angle_3 = np.zeros([6,1])
 phasor_angle_3[3]=1.5
 force_phasor_3 = ForcePhasor(angular_frequency=582, phasor_angle=phasor_angle_1, m_x=15)
-force_matrix_3 = force_phasor_3.force_phasor_matrix()
+force_matrix_3 = force_phasor_3.force_phasor_matrix(time=0)
 
 combined_k_matrix = np.concatenate((k_matrix_1,k_matrix_2,k_matrix_3), axis=1)
 # print(combined_k_matrix)

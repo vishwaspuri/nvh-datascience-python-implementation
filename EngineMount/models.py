@@ -54,20 +54,42 @@ class Mount:
 
 
 class Engine:
-    def __init__(self, mass, principal_moments=np.array([0, 0, 0]), theta=np.array([0,0,0])):
+    def __init__(self, mass, principal_moments=[0, 0, 0], theta=[0,0,0]):
         self.mass = mass
         self.principal_moments = principal_moments
         self.theta = theta
     
     def mass_matrix(self):
-        return np.array([
+        rotation_x = np.array([
+            [1, 0, 0],
+            [0, math.cos(math.radians(self.theta[0])), -math.sin(math.radians(self.theta[0]))],
+            [0, math.sin(math.radians(self.theta[0])), math.cos(math.radians(self.theta[0]))]
+        ])
+        rotation_y = np.array([
+            [math.cos(math.radians(self.theta[1])), 0, math.sin(math.radians(self.theta[1]))],
+            [0, 1, 0],
+            [-math.sin(math.radians(self.theta[1])), 0, math.cos(math.radians(self.theta[1]))]
+        ])
+        rotation_z = np.array([
+            [math.cos(math.radians(self.theta[2])), -math.sin(math.radians(self.theta[2])), 0],
+            [math.sin(math.radians(self.theta[2])), math.cos(math.radians(self.theta[2])), 0],
+            [0, 0, 1]
+        ])
+        rotation_matrix = np.dot(rotation_z, np.dot(rotation_y, rotation_x))
+        principal_inertia_matrix = np.array([
+            [self.principal_moments[0], 0, 0],
+            [0, self.principal_moments[1], 0],
+            [0, 0, self.principal_moments[2]]
+        ])
+        moi_tensor = np.dot(principal_inertia_matrix, rotation_matrix)
+        moi_tensor_half=np.concatenate((np.zeros([3,3]), moi_tensor), axis=1) 
+        mass_array = np.array([
             [self.mass, 0, 0, 0, 0, 0],
             [0, self.mass, 0, 0, 0, 0],
             [0, 0, self.mass, 0, 0, 0],
-            [0, 0, 0, self.principal_moments[0], 0, 0],
-            [0, 0, 0, 0, self.principal_moments[1], 0],
-            [0, 0, 0, 0, 0, self.principal_moments[1]],
         ])
+        mass_matrix = np.concatenate((mass_array, moi_tensor_half), axis=0)
+        return mass_matrix
 
 class ForcePhasor:
     def __init__(self,  angular_frequency,  phasor_angle=np.zeros([6,1]),  f_x=0,  f_y=0,  f_z=0,  m_x=0,  m_y=0,  m_z=0):
@@ -80,13 +102,14 @@ class ForcePhasor:
         self.angular_frequency = angular_frequency
         self.phasor_angle = phasor_angle
     
-    def force_phasor_matrix(self):
+    def force_phasor_matrix(self, time):
         return np.array([
-            [self.f_x*math.exp(int(self.phasor_angle[0]))],
-            [self.f_y*math.exp(int(self.phasor_angle[1]))],
-            [self.f_z*math.exp(int(self.phasor_angle[2]))],
-            [self.m_x*math.exp(int(self.phasor_angle[3]))],
-            [self.m_y*math.exp(int(self.phasor_angle[4]))],
-            [self.m_z*math.exp(int(self.phasor_angle[5]))]
+            # [self.f_x*math.exp(np.complex(0,int(self.phasor_angle[0])))],
+            [self.f_x*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[0]), math.sin(self.angular_frequency*time + self.phasor_angle[0]))],
+            [self.f_y*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[1]), math.sin(self.angular_frequency*time + self.phasor_angle[1]))],
+            [self.f_z*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[2]), math.sin(self.angular_frequency*time + self.phasor_angle[2]))],
+            [self.m_x*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[3]), math.sin(self.angular_frequency*time + self.phasor_angle[3]))],
+            [self.m_y*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[4]), math.sin(self.angular_frequency*time + self.phasor_angle[4]))],
+            [self.m_z*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[5]), math.sin(self.angular_frequency*time + self.phasor_angle[5]))]
         ])
     
