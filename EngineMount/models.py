@@ -35,7 +35,7 @@ class Mount:
             [0, self.k_y*np.complex(1, self.n_y), 0],
             [0, 0, self.k_z*np.complex(1, self.n_z)]
         ])
-        print('working')
+        # print('working')
         return stiffness_matrix 
     
     def g_matrix(self):
@@ -105,11 +105,11 @@ class ForcePhasor:
     def force_phasor_matrix(self, time):
         return np.array([
             # [self.f_x*math.exp(np.complex(0,int(self.phasor_angle[0])))],
-            [self.f_x*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[0]), math.sin(self.angular_frequency*time + self.phasor_angle[0]))],
-            [self.f_y*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[1]), math.sin(self.angular_frequency*time + self.phasor_angle[1]))],
-            [self.f_z*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[2]), math.sin(self.angular_frequency*time + self.phasor_angle[2]))],
-            [self.m_x*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[3]), math.sin(self.angular_frequency*time + self.phasor_angle[3]))],
-            [self.m_y*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[4]), math.sin(self.angular_frequency*time + self.phasor_angle[4]))],
-            [self.m_z*np.complex(math.cos(self.angular_frequency*time + self.phasor_angle[5]), math.sin(self.angular_frequency*time + self.phasor_angle[5]))]
+            [self.f_x*np.complex(math.cos(math.radians(self.angular_frequency*time + self.phasor_angle[0])), math.sin(math.radians(self.angular_frequency*time + self.phasor_angle[0])))],
+            [self.f_y*np.complex(math.cos(math.radians(self.angular_frequency*time + self.phasor_angle[1])), math.sin(math.radians(self.angular_frequency*time + self.phasor_angle[1])))],
+            [self.f_z*np.complex(math.cos(math.radians(self.angular_frequency*time + self.phasor_angle[2])), math.sin(math.radians(self.angular_frequency*time + self.phasor_angle[2])))],
+            [self.m_x*np.complex(math.cos(math.radians(self.angular_frequency*time + self.phasor_angle[3])), math.sin(math.radians(self.angular_frequency*time + self.phasor_angle[3])))],
+            [self.m_y*np.complex(math.cos(math.radians(self.angular_frequency*time + self.phasor_angle[4])), math.sin(math.radians(self.angular_frequency*time + self.phasor_angle[4])))],
+            [self.m_z*np.complex(math.cos(math.radians(self.angular_frequency*time + self.phasor_angle[5])), math.sin(math.radians(self.angular_frequency*time + self.phasor_angle[5])))]
         ])
     
