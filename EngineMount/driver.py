@@ -10,13 +10,6 @@ def driver(x_1, y_1, z_1, x_2, y_2, z_2, x_3, y_3, z_3, k_x_1, k_y_1, k_z_1, k_x
     theta = [5,12.3,-20.7]
     engine = Engine(mass=170, principal_moments=principal_moments, theta=theta)
 
-    # mount_1 = Mount(x=-0.25, y=0.25, z=-0.25, k_x=0.6*pow(10,5),k_y=0.6*pow(10,5), k_z=0.6*pow(10,5), n_x=0.1, n_y=0.1, n_z=0.1)
-    # k_matrix_1 = mount_1.k_matrix()
-    # mount_2 = Mount(x=-0.30, y=-0.10, z=0.05, k_x=0.6*pow(10,5),k_y=0.6*pow(10,5), k_z=0.6*pow(10,5), n_x=0.1, n_y=0.1, n_z=0.1)
-    # k_matrix_2 = mount_2.k_matrix()
-    # mount_3 = Mount(x=-0.35, y=-0.35, z=-0.35, k_x=0.6*pow(10,5),k_y=0.6*pow(10,5), k_z=0.6*pow(10,5), n_x=0.1, n_y=0.1, n_z=0.1)
-    # k_matrix_3 = mount_3.k_matrix()
-
     mount_1 = Mount(x=x_1, y=y_1, z=z_1, k_x=k_x_1,k_y=k_y_1, k_z=k_z_1, n_x=0.1, n_y=0.1, n_z=0.1)
     k_matrix_1 = mount_1.k_matrix()
     mount_2 = Mount(x=x_2, y=y_2, z=z_2, k_x=k_x_2,k_y=k_y_2, k_z=k_z_2, n_x=0.1, n_y=0.1, n_z=0.1)
@@ -26,7 +19,7 @@ def driver(x_1, y_1, z_1, x_2, y_2, z_2, x_3, y_3, z_3, k_x_1, k_y_1, k_z_1, k_x
 
     objective_function_values = []
     time = 0
-    for i in range(0,2000):
+    for i in range(0,20):
         time = time + i*0.1
         phasor_angle_1 = np.zeros([6,1])
         phasor_angle_1[2]=-3
@@ -62,9 +55,9 @@ def driver(x_1, y_1, z_1, x_2, y_2, z_2, x_3, y_3, z_3, k_x_1, k_y_1, k_z_1, k_x
         mount_array = [mount_1, mount_2, mount_3]
         objective_function_values.append(utils.calculate_objective_function(com_displacement=com_displacement, num_mounts=3, mounts=mount_array))
 
-    # print(max(objective_function_values))
 
-    return max(objective_function_values)
+
+    return (-1)*max(objective_function_values)
 
 # o = driver(-0.25,0.25,-0.25,0.30,-0.10,0.05,-0.35,-0.35,-0.35,0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5),0.6*pow(10,5))
 # print(o)
