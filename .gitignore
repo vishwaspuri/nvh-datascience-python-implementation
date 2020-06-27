@@ -1,2 +1,6 @@
+EngineMount/__pycache__
+EngineMount/lala.py
+EngineMount/.gitignore
 win_env
 .vscode
+.idea
